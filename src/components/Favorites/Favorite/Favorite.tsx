@@ -23,7 +23,7 @@ const FavoriteElement: FC<FavoriteInterface> = ({ favorite, type }) => {
             marginTop: 20,
             minWidth:300,
             padding:10,
-            width: '100%'
+            width: '80%'
         },
     });
 

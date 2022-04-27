@@ -32,7 +32,7 @@ const NavigationProvider: FC<Props> = (theme) => {
                     <RootStack.Screen
                         name="Tab"
                         component={CharacterStack}
-                        options={{ headerShown: true }}
+                        options={{ headerShown: false }}
                     />
                     <RootStack.Screen name="Character" component={Character}
                         options={({ route }) => ({ title: route.params?.name })}

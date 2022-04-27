@@ -25,7 +25,7 @@ const Login: ScreenFC<'Login'> = ({ navigation, route }) => {
         container: {
             alignItems: 'center',
             backgroundColor: backgroundColor,
-            justifyContent: 'flex-start',
+            justifyContent: 'space-around',
             height: '100%',
             padding: 10,
             width: '100%'
@@ -96,12 +96,12 @@ const Login: ScreenFC<'Login'> = ({ navigation, route }) => {
             <View style={styles.buttonView}>
                 <TouchableOpacity style={styles.button} onPress={handleSubmit(onSubmit)}>
                     <Text style={{
-                        color:' #fff', fontSize: 20, fontWeight: 'bold', padding: 5, textAlign: 'center',
+                        color:'#fff', fontSize: 20, fontWeight: 'bold', padding: 5, textAlign: 'center',
                     }}>Login</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.button} onPress={()=>navigation.navigate('Signup')}>
                     <Text style={{
-                        color:' #fff', fontSize: 20, fontWeight: 'bold', padding: 5, textAlign: 'center',
+                        color:'#fff', fontSize: 20, fontWeight: 'bold', padding: 5, textAlign: 'center',
                     }}>Signup</Text>
                 </TouchableOpacity>
             </View>

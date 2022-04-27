@@ -21,7 +21,7 @@ const themes = {
 export const ThemeContext = createContext(themes.light);
 
 export default function App() {
-  const [currentTheme, setCurrentTheme] = useState('dark' as keyof typeof themes);
+  const [currentTheme, setCurrentTheme] = useState('light' as keyof typeof themes);
   return (
     <Provider store={store}>
       <ThemeContext.Provider value={themes[currentTheme]}>
