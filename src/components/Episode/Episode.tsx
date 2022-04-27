@@ -1,14 +1,34 @@
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Episode as EpisodeInterface } from '../../models/episodes.interface'
 import { selectLogin } from '../../store/login/login.selector';
 import { MaterialIcons } from '@expo/vector-icons';
+import { selectFavorites } from '../../store/favorites/favorites.selector';
+import { Favorite, RemoveFavorite } from '../../models/favorites.interface';
+import { addFavorite, removeFavorite } from '../../store/favorites/favorites.actions';
 
 //OK SVILUPPA LA PARTE DEI FAVORITES CON IL REDUCER
 //POI USA LO USE CONTEXT PER IL DARK THEME
 const Episode: FC<EpisodeInterface> = ({ id, name, air_date, episode, characters, created, removeEpisode }) => {
     const loggedUser = useSelector(selectLogin);
+    const favorites = useSelector(selectFavorites);
+    const dispatch = useDispatch();
+    const [isFavorite, setIsFavorite] = useState<boolean>(
+        favorites.some(favorite => favorite.favorite.id === id && favorite.username === loggedUser.username && favorite.type === 'episode'))
+    const newFavorite = () => {
+        const favorite: Favorite = {
+            username: loggedUser.username,
+            favorite: { id, name, air_date, episode, characters, created, }, type: 'episode'
+        };
+        dispatch(addFavorite(favorite));
+        setIsFavorite(true);
+    }
+    const unfavorite = () => {
+        const unfavorite: RemoveFavorite = { username: loggedUser.username, favoriteId:id, type: 'episode' };
+        dispatch(removeFavorite(unfavorite));
+        setIsFavorite(false);
+    }
     return (
         <View style={styles.box} >
             <View style={styles.id}>
@@ -28,13 +48,28 @@ const Episode: FC<EpisodeInterface> = ({ id, name, air_date, episode, characters
             </View>
 
             {loggedUser.isLogged &&
+                <>
                     <View style={{ position: 'absolute', bottom: 10, right: 10 }}>
                         <TouchableOpacity style={styles.button}
-                            onPress={() => removeEpisode(id)/*(dispatch(remove(id)), unfavorite())*/
-                        }>
+                            onPress={() => (removeEpisode(id), unfavorite())}>
                             <Text style={{ fontWeight: 'bold', color: '#fff', textAlign: 'center', paddingHorizontal: 5 }}>Delete</Text>
                         </TouchableOpacity>
                     </View>
+                    <View style={{ position: 'absolute', bottom: 10, left: 30 }}>
+                        {isFavorite &&
+                         <TouchableOpacity
+                             onPress={() => unfavorite()}>
+                             <MaterialIcons name="favorite" size={24} color="red" />
+                         </TouchableOpacity>
+                     }
+                        {!isFavorite &&
+                            <TouchableOpacity
+                                onPress={() => newFavorite()}>
+                                <MaterialIcons name="favorite" size={24} color="gray" />
+                            </TouchableOpacity>
+                        }
+                    </View>
+                </>
             }
         </View>
 

@@ -1,15 +1,35 @@
-import React, { FC, useEffect, useState } from 'react'
-import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native'
-import { useDispatch, useSelector } from 'react-redux'
-import { selectLogin } from '../../store/login/login.selector'
-import { Props } from './Card.interface'
+import React, { FC, useEffect, useState } from 'react';
+import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { Favorite, RemoveFavorite } from '../../models/favorites.interface';
+import { selectFavorites } from '../../store/favorites/favorites.selector';
+import { selectLogin } from '../../store/login/login.selector';
+import { Props } from './Card.interface';
+import { addFavorite, removeFavorite } from "../../store/favorites/favorites.actions";
+import { MaterialIcons } from '@expo/vector-icons';
+
+
 
 
 
 
 const Card: FC<Props> = ({ id, name, species, location, status, image, removeCharacter }) => {
     const loggedUser = useSelector(selectLogin);
-   
+    const favorites = useSelector(selectFavorites);
+    const dispatch = useDispatch();
+    const [isFavorite, setIsFavorite] = useState<boolean>(
+    favorites.some(favorite => favorite.favorite.id === id && favorite.username === loggedUser.username && favorite.type==='character'))
+    const newFavorite = () => {
+        const favorite: Favorite = { username: loggedUser.username, favorite: { id, name, species, location, status, image }, type: 'character' };
+        dispatch(addFavorite(favorite));
+        setIsFavorite(true);
+    }
+    const unfavorite = () => {
+        const unfavorite: RemoveFavorite = { username: loggedUser.username, favoriteId:id, type: 'character' };
+        dispatch(removeFavorite(unfavorite));
+        setIsFavorite(false);
+    }
+
     return (
         <View style={styles.box} >
             <View style={styles.id}>
@@ -36,12 +56,28 @@ const Card: FC<Props> = ({ id, name, species, location, status, image, removeCha
                 <Text style={{ fontWeight: 'bold', color: status === 'Alive' ? 'green' : 'red' }}>{status}</Text>
             </View>
             {loggedUser.isLogged &&
+                <>
                     <View style={{ position: 'absolute', bottom: 10, right: 10 }}>
                         <TouchableOpacity style={styles.button}
-                            onPress={() => removeCharacter(id)}>
+                            onPress={() => (removeCharacter(id),unfavorite())}>
                             <Text style={{ fontWeight: 'bold', color: '#fff', textAlign: 'center', paddingHorizontal: 5 }}>Delete</Text>
                         </TouchableOpacity>
                     </View>
+                    <View style={{ position: 'absolute', bottom: 10, left: 30 }}>
+                        {isFavorite &&
+                            <TouchableOpacity
+                                onPress={() => unfavorite()}>
+                                <MaterialIcons name="favorite" size={24} color="red" />
+                            </TouchableOpacity>
+                        }
+                        {!isFavorite &&
+                            <TouchableOpacity
+                                onPress={() => newFavorite()}>
+                                <MaterialIcons name="favorite" size={24} color="gray" />
+                            </TouchableOpacity>
+                        }
+                    </View>
+                </>
             }
         </View>
 

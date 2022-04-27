@@ -7,6 +7,7 @@ import { selectUsers } from '../../../store/users/users.selector';
 import { User as UserInterface } from '../../Auth/Signup/Signup.interface';
 import { AntDesign } from '@expo/vector-icons';
 import { selectLogin } from '../../../store/login/login.selector';
+import { selectFavorites } from '../../../store/favorites/favorites.selector';
 
 
 //POI PENSA A CREARE IL REDUX PER I FAVORITES
@@ -18,17 +19,17 @@ import { selectLogin } from '../../../store/login/login.selector';
 const User: FC = () => {
     const dispatch = useDispatch();
     const users = useSelector(selectUsers);
+    const favorites = useSelector(selectFavorites);
     const loggedUsername = useSelector(selectLogin).username
-    // const favorites = useSelector(selectFavorites);
     const [user, setUser] = useState<UserInterface>({} as UserInterface);
 
     useEffect(() => {
         const loggedUser = users.find(user1 => user1.username! === loggedUsername)
         setUser(loggedUser!);
     }, [user, users])
-    // useEffect(() => {
-    //     console.log("favChar", favorites);
-    // }, [favorites])
+    useEffect(() => {
+        console.log('favorites',favorites)
+    }, [favorites])
     return (
         <View style={styles.container}>
             <View style={styles.infos}>
@@ -46,20 +47,18 @@ const User: FC = () => {
                     </TouchableOpacity>
                 </View>
             </View>
-            {/* <View style={styles.favoritesArea}>
+            <View style={styles.favoritesArea}>
                 <TouchableOpacity style={styles.favorite}>
                     <Text style={styles.text}>Favorite Characters:</Text>
                     <Text style={styles.text}>
-                        ({favorites.filter(favorite => favorite.type === 'character' && favorite.username === loggedUsername &&
-                         favorite.status).length})</Text>
+                        ({favorites.filter(favorite => favorite.type === 'character' && favorite.username === loggedUsername).length})</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.favorite}>
                     <Text style={styles.text}>Favorite Episodes:</Text>
                     <Text style={styles.text}>
-                        ({favorites.filter(favorite => favorite.type === 'episode' && favorite.username === loggedUsername &&
-                         favorite.status).length})</Text>
+                        ({favorites.filter(favorite => favorite.type === 'episode' && favorite.username === loggedUsername).length})</Text>
                 </TouchableOpacity>
-            </View> */}
+            </View>
 
 
         </View>
