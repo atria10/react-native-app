@@ -3,20 +3,14 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../../store/login/login.actions';
 import { selectUsers } from '../../../store/users/users.selector';
-// import { selectFavorites } from '../../../store/favorites/favorites.selector'
 import { User as UserInterface } from '../../Auth/Signup/Signup.interface';
 import { AntDesign } from '@expo/vector-icons';
 import { selectLogin } from '../../../store/login/login.selector';
 import { selectFavorites } from '../../../store/favorites/favorites.selector';
+import ScreenFC from '../../../models/ScreenFC';
+import { Props } from './User.interface';
 
-
-//POI PENSA A CREARE IL REDUX PER I FAVORITES
-//STILIZZA ANCHE LA PAGINA PERSONAL
-//SISTEMA LA COSA DEI FORM
-//FAI LO USE CONTEXT PER MODALITA' NOTTURNA O NORMALE
-
-//PUI LASCIARE UN SOLO REDUCER PER I FAVORITE FORSE
-const User: FC = () => {
+const User:FC<Props>=({navigation})=> {
     const dispatch = useDispatch();
     const users = useSelector(selectUsers);
     const favorites = useSelector(selectFavorites);
@@ -48,12 +42,12 @@ const User: FC = () => {
                 </View>
             </View>
             <View style={styles.favoritesArea}>
-                <TouchableOpacity style={styles.favorite}>
+                <TouchableOpacity style={styles.favorite} onPress={()=>navigation('character')} >
                     <Text style={styles.text}>Favorite Characters:</Text>
                     <Text style={styles.text}>
                         ({favorites.filter(favorite => favorite.type === 'character' && favorite.username === loggedUsername).length})</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.favorite}>
+                <TouchableOpacity style={styles.favorite} onPress={()=>navigation('episode')}>
                     <Text style={styles.text}>Favorite Episodes:</Text>
                     <Text style={styles.text}>
                         ({favorites.filter(favorite => favorite.type === 'episode' && favorite.username === loggedUsername).length})</Text>

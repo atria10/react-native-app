@@ -13,11 +13,12 @@ const Personal: ScreenFC<'Personal'> = ({ navigation, route }) => {
   const isLogged = useSelector(selectLogin);
   useEffect(() => {
   }, [isLogged])
+  const goToFavorites=(type:'character'|'episode')=>navigation.navigate('Favorites',{id:type})
   return (
 
     <SafeAreaView style={styles.container}>
       {isLogged.isLogged ?
-        <User/> 
+        <User navigation={goToFavorites} /> 
         :
         <View style={styles.buttonView}>
           <Text style={{ fontSize: 20, fontWeight: 'bold', textAlign: 'center' }}>To see this page you need to be logged in</Text>

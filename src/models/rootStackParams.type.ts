@@ -8,6 +8,7 @@ export type RootStackParams = {
     Personal: {
         id?: string,
         username?:string;
+        favoriteType?:'characters'|'episodes';
     } | undefined;
     Character: {
         id?: string;
@@ -15,6 +16,9 @@ export type RootStackParams = {
     } | undefined;
     Episode: {
         id?: string;
+    } | undefined;
+    Favorites: {
+        id?: 'character'|'episode';
     } | undefined;
     Tab: {
         id?: string;
@@ -25,4 +29,5 @@ export type RootStackParams = {
     Login: {
         id?: string;
     } | undefined;
+
 }

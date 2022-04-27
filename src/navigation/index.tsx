@@ -7,6 +7,8 @@ import Character from '../components/Character/Character';
 import Episode from '../components/Episode/Episode';
 import Signup from '../components/Auth/Signup/Signup';
 import Login from '../components/Auth/Login/Login';
+import Favorites from '../components/Favorites/Favorites';
+import User from '../components/Auth/User/User';
 
 const RootStack = createStackNavigator<RootStackParams>();
 
@@ -34,6 +36,8 @@ const NavigationProvider: FC = () => {
                 <RootStack.Screen name="Episode" component={Episode} />
                 <RootStack.Screen name="Signup" component={Signup} />
                 <RootStack.Screen name="Login" component={Login} />
+                <RootStack.Screen name="Favorites" component={Favorites}
+                options={({ route }) => ({ title: 'Favorite '+ route.params?.id+'s' })} />
             </RootStack.Navigator>
         </NavigationContainer>
     )
