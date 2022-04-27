@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useContext, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { Episode as EpisodeInterface } from '../../models/episodes.interface'
@@ -7,10 +7,52 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { selectFavorites } from '../../store/favorites/favorites.selector';
 import { Favorite, RemoveFavorite } from '../../models/favorites.interface';
 import { addFavorite, removeFavorite } from '../../store/favorites/favorites.actions';
+import { ThemeContext } from "../../../App";
 
-//OK SVILUPPA LA PARTE DEI FAVORITES CON IL REDUCER
-//POI USA LO USE CONTEXT PER IL DARK THEME
+
 const Episode: FC<EpisodeInterface> = ({ id, name, air_date, episode, characters, created, removeEpisode }) => {
+    const {backgroundColor,borderColor,color}=useContext(ThemeContext);
+
+    const styles = StyleSheet.create({
+        box: {
+            alignItems: 'center',
+            backgroundColor: backgroundColor,
+            borderColor: borderColor,
+            borderRadius: 15,
+            borderWidth:2,
+            justifyContent: 'space-evenly',
+            flexDirection: 'row',
+            height: 150,
+            marginBottom: 10,
+            marginTop: 10,
+            minWidth: 300,
+            width: '100%'
+        },
+        button: {
+            alignItems: 'center',
+            backgroundColor: 'red',
+            borderRadius: 15,
+            justifyContent: 'center',
+            height: 30,
+            padding: 1,
+            width: '100%',
+        },
+        id: {
+            alignItems: 'center',
+            borderRadius: 100,
+            backgroundColor: 'orange',
+            justifyContent: 'center',
+            height: 40,
+            position: 'absolute',
+            right: '42%',
+            top: -10,
+            width: 40
+        },
+        text: {
+            fontWeight: 'bold',
+            color:color
+        }
+    });
     const loggedUser = useSelector(selectLogin);
     const favorites = useSelector(selectFavorites);
     const dispatch = useDispatch();
@@ -32,7 +74,7 @@ const Episode: FC<EpisodeInterface> = ({ id, name, air_date, episode, characters
     return (
         <View style={styles.box} >
             <View style={styles.id}>
-                <Text style={{ fontWeight: 'bold', color: 'white', fontSize: 10 }}>{id}</Text>
+                <Text style={[styles.text,  {fontSize: 10,color:'#fff'} ]}>{id}</Text>
             </View>
             <View>
                 <Text style={styles.text}>NAME:</Text>
@@ -41,10 +83,10 @@ const Episode: FC<EpisodeInterface> = ({ id, name, air_date, episode, characters
                 <Text style={styles.text}>Episode:</Text>
             </View>
             <View>
-                <Text style={{ width: '95%' }}>{name?.length > 15 ? name.substring(0, 15) : name}</Text>
-                <Text>{air_date}</Text>
-                <Text style={{ width: '95%' }}>{characters?.length}</Text>
-                <Text>{episode}</Text>
+                <Text style={[styles.text,{ width: '95%' }]}>{name?.length > 15 ? name.substring(0, 15) : name}</Text>
+                <Text style={[styles.text]}>{air_date}</Text>
+                <Text style={[styles.text,{ width: '95%' }]}>{characters?.length}</Text>
+                <Text style={[styles.text]}>{episode}</Text>
             </View>
 
             {loggedUser.isLogged &&
@@ -76,49 +118,6 @@ const Episode: FC<EpisodeInterface> = ({ id, name, air_date, episode, characters
     )
 
 }
-const styles = StyleSheet.create({
-    box: {
-        alignItems: 'center',
-        backgroundColor: '#fff',
-        borderColor: '#17aede',
-        borderRadius: 15,
-        borderWidth:2,
-        justifyContent: 'space-evenly',
-        flexDirection: 'row',
-        height: 150,
-        marginBottom: 10,
-        marginTop: 10,
-        minWidth: 300,
-        width: '100%'
-    },
-    button: {
-        alignItems: 'center',
-        backgroundColor: 'red',
-        borderRadius: 15,
-        justifyContent: 'center',
-        height: 30,
-        padding: 1,
-        width: '100%',
-    },
-    id: {
-        alignItems: 'center',
-        borderRadius: 100,
-        backgroundColor: 'orange',
-        justifyContent: 'center',
-        height: 40,
-        position: 'absolute',
-        right: '42%',
-        top: -10,
-        width: 40
-    },
-    image: {
-        borderRadius: 100,
-        height: 60,
-        width: 60
-    },
-    text: {
-        fontWeight: 'bold',
-    }
-});
+
 
 export default Episode;

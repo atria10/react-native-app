@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, useContext, useEffect, useState } from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../../store/login/login.actions';
@@ -9,8 +9,68 @@ import { selectLogin } from '../../../store/login/login.selector';
 import { selectFavorites } from '../../../store/favorites/favorites.selector';
 import ScreenFC from '../../../models/ScreenFC';
 import { Props } from './User.interface';
+import { ThemeContext } from "../../../../App";
 
 const User:FC<Props>=({navigation})=> {
+    const {backgroundColor,borderColor,color}=useContext(ThemeContext);
+    const styles = StyleSheet.create({
+        logout: {
+            alignItems: 'center',
+            backgroundColor: 'red',
+            borderRadius: 100,
+            justifyContent: 'center',
+            height: 30,
+            width: 30
+        },
+        buttonView: {
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '80%',
+            height: '60%',
+        },
+        container: {
+            alignItems: 'center',
+            backgroundColor: backgroundColor,
+            justifyContent: 'flex-start',
+            height: '100%',
+            width: '100%'
+        },
+        favorite: {
+            alignItems: 'center',
+            borderColor: borderColor,
+            borderRadius: 20,
+            borderWidth: 2,
+            flexDirection: 'row',
+            justifyContent: 'space-around',
+            marginTop: '10%',
+            padding: 10,
+            width: '100%',
+        },
+        favoritesArea: {
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginTop: '10%',
+            width: '100%'
+        },
+        image: {
+            borderRadius: 100,
+            height: 30,
+            width: 30
+        },
+        infos: {
+            alignItems: 'center',
+            flexDirection: 'row',
+            justifyContent: 'space-around',
+            width: '100%',
+        },
+        text: {
+            color:color,
+            fontSize: 20,
+            fontWeight: 'bold',
+            textAlign: 'center'
+        }
+    });
+
     const dispatch = useDispatch();
     const users = useSelector(selectUsers);
     const favorites = useSelector(selectFavorites);
@@ -58,60 +118,5 @@ const User:FC<Props>=({navigation})=> {
         </View>
     )
 }
-const styles = StyleSheet.create({
-    logout: {
-        alignItems: 'center',
-        backgroundColor: 'red',
-        borderRadius: 100,
-        justifyContent: 'center',
-        height: 30,
-        width: 30
-    },
-    buttonView: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: '80%',
-        height: '60%',
-    },
-    container: {
-        alignItems: 'center',
-        backgroundColor: '#fff',
-        justifyContent: 'flex-start',
-        height: '100%',
-        width: '100%'
-    },
-    favorite: {
-        alignItems: 'center',
-        borderColor: '#17aede',
-        borderRadius: 20,
-        borderWidth: 2,
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        marginTop: '10%',
-        padding: 10,
-        width: '100%',
-    },
-    favoritesArea: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginTop: '10%',
-        width: '100%'
-    },
-    image: {
-        borderRadius: 100,
-        height: 30,
-        width: 30
-    },
-    infos: {
-        alignItems: 'center',
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        width: '100%',
-    },
-    text: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        textAlign: 'center'
-    }
-});
+
 export default User;

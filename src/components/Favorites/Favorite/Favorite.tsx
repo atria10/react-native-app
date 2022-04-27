@@ -1,15 +1,32 @@
-import React, { FC, useEffect, useState } from 'react';
-import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
+import React, { FC, useContext } from 'react';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { Favorite, RemoveFavorite } from '../../../models/favorites.interface';
-import { selectFavorites } from '../../../store/favorites/favorites.selector';
+import { RemoveFavorite } from '../../../models/favorites.interface';
 import { selectLogin } from '../../../store/login/login.selector';
-import { addFavorite, removeFavorite } from "../../../store/favorites/favorites.actions";
+import { removeFavorite } from "../../../store/favorites/favorites.actions";
 import { MaterialIcons } from '@expo/vector-icons';
-import { FavoriteCharacter, FavoriteEpisode, FavoriteInterface } from './Favorite.interface';
+import {  FavoriteInterface } from './Favorite.interface';
+import { ThemeContext } from "../../../../App";
 
 
 const FavoriteElement: FC<FavoriteInterface> = ({ favorite, type }) => {
+    const {borderColor,color}=useContext(ThemeContext);
+    const styles = StyleSheet.create({
+        box: {
+            alignItems: 'center',
+            borderRadius: 15,
+            borderColor: borderColor,
+            borderWidth: 2,
+            justifyContent: 'space-between',
+            flexDirection: 'row',
+            marginBottom: 10,
+            marginTop: 20,
+            minWidth:300,
+            padding:10,
+            width: '100%'
+        },
+    });
+
     const favoriteType = type as 'character' | 'episode';
     const loggedUser = useSelector(selectLogin);
     const dispatch = useDispatch();
@@ -21,10 +38,10 @@ const FavoriteElement: FC<FavoriteInterface> = ({ favorite, type }) => {
     return (
         <View style={styles.box} >
             <View >
-                <Text style={{ fontWeight: 'bold', color: 'black', fontSize: 15 }}>{favorite.id}</Text>
+                <Text style={[{ fontWeight: 'bold', color: color, fontSize: 15 }]}>{favorite.id}</Text>
             </View>
             <View >
-                <Text style={{ fontWeight: 'bold', color: 'black', fontSize: 15 }}>{favorite.name}</Text>
+                <Text style={{ fontWeight: 'bold', color:color, fontSize: 15 }}>{favorite.name}</Text>
             </View>
             <View>
                 <TouchableOpacity
@@ -37,20 +54,6 @@ const FavoriteElement: FC<FavoriteInterface> = ({ favorite, type }) => {
     )
 
 }
-const styles = StyleSheet.create({
-    box: {
-        alignItems: 'center',
-        borderRadius: 15,
-        borderColor: '#17aede',
-        borderWidth: 2,
-        justifyContent: 'space-between',
-        flexDirection: 'row',
-        marginBottom: 10,
-        marginTop: 20,
-        minWidth:300,
-        padding:10,
-        width: '100%'
-    },
-});
+
 
 export default FavoriteElement;

@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useContext, useState } from "react";
 import { StyleSheet, Text, View, TextInput, KeyboardAvoidingView, Platform, TouchableOpacity } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { User } from "./Signup.interface";
@@ -6,9 +6,55 @@ import { useDispatch, useSelector } from "react-redux";
 import { signup } from "../../../store/users/users.actions";
 import { selectUsers } from "../../../store/users/users.selector";
 import ScreenFC from "../../../models/ScreenFC";
+import { ThemeContext } from "../../../../App";
 
 //SVILUPPA LA LOGIN PAGE
 const Signup: ScreenFC<'Signup'> = ({ navigation }) => {
+    const {backgroundColor,borderColor,color}=useContext(ThemeContext);
+    const styles = StyleSheet.create({
+        button: {
+            backgroundColor: borderColor,
+            borderRadius: 20,
+            marginTop: 10,
+            width: '100%',
+        },
+        buttonView: {
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '80%',
+        },
+        container: {
+            alignItems: 'center',
+            backgroundColor: backgroundColor,
+            justifyContent: 'flex-start',
+            height: '100%',
+            padding: 10,
+            width: '100%'
+        },
+        input: {
+            borderColor: borderColor,
+            borderRadius: 15,
+            borderWidth: 2,
+            color: color,
+            marginTop: 10,
+            padding: 10,
+            textAlign: 'center',
+            width: '100%'
+        },
+        inputs: {
+            alignItems: 'center',
+            display: 'flex',
+            justifyContent: 'center',
+            height: '30%',
+            width: '60%'
+        },
+        title: {
+            fontSize: 25,
+            fontWeight: 'bold',
+            color: borderColor
+        },
+    });
+
     const [existing, setExisting] = useState<boolean>(false);
     const users = useSelector(selectUsers);
     const dispatch = useDispatch();
@@ -60,12 +106,12 @@ const Signup: ScreenFC<'Signup'> = ({ navigation }) => {
             <View style={styles.buttonView}>
                 <TouchableOpacity style={styles.button} onPress={handleSubmit(onSubmit)}>
                     <Text style={{
-                        color: 'white', fontSize: 20, fontWeight: 'bold', padding: 5, textAlign: 'center',
+                        color:' #fff', fontSize: 20, fontWeight: 'bold', padding: 5, textAlign: 'center',
                     }}>Signup</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Login')}>
                     <Text style={{
-                        color: 'white', fontSize: 20, fontWeight: 'bold', padding: 5, textAlign: 'center',
+                        color:' #fff', fontSize: 20, fontWeight: 'bold', padding: 5, textAlign: 'center',
                     }}>Login</Text>
                 </TouchableOpacity>
             </View>
@@ -73,48 +119,6 @@ const Signup: ScreenFC<'Signup'> = ({ navigation }) => {
     );
 }
 
-const styles = StyleSheet.create({
-    button: {
-        backgroundColor: '#17aede',
-        borderRadius: 20,
-        marginTop: 10,
-        width: '100%',
-    },
-    buttonView: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: '80%',
-    },
-    container: {
-        alignItems: 'center',
-        backgroundColor: '#fff',
-        justifyContent: 'flex-start',
-        height: '100%',
-        padding: 10,
-        width: '100%'
-    },
-    input: {
-        borderColor: '#17aede',
-        borderRadius: 15,
-        borderWidth: 2,
-        color: 'black',
-        marginTop: 10,
-        padding: 10,
-        textAlign: 'center',
-        width: '100%'
-    },
-    inputs: {
-        alignItems: 'center',
-        display: 'flex',
-        justifyContent: 'center',
-        height: '30%',
-        width: '60%'
-    },
-    title: {
-        fontSize: 25,
-        fontWeight: 'bold',
-        color: '#17aede'
-    },
-});
+
 
 export default Signup;

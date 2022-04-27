@@ -1,10 +1,62 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { StyleSheet, Text, View, Image } from 'react-native';
 import ScreenFC from '../../models/ScreenFC';
 import { Character as CharacterInterface } from '../../models/characters.interface'
+import { ThemeContext } from "../../../App";
 
 const Character: ScreenFC<'Character'> = ({ navigation, route }) => {
+    const {backgroundColor,borderColor,color}=useContext(ThemeContext);
+
+    const styles = StyleSheet.create({
+        box: {
+            alignItems: 'center',
+            backgroundColor,
+            flex:1,
+            justifyContent: 'center',
+            textAlign:'center',
+            width: '100%'
+        },
+        button: {
+            alignItems: 'center',
+            backgroundColor: 'red',
+            borderRadius: 15,
+            justifyContent: 'center',
+            height: 20,
+            width: '100%',
+        },
+        id: {
+            alignItems: 'center',
+            borderRadius: 100,
+            backgroundColor: '#4c3838',
+            justifyContent: 'center',
+            height: 30,
+            position: 'absolute',
+            top: -10,
+            width: 30
+        },
+        image: {
+            borderRadius: 10,
+            height: 200,
+            marginTop: '5%',
+            width: '90%'
+        },
+        infos: {
+            alignItems: 'center',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            marginTop: '10%',
+            width: '80%',
+        },
+        text: {
+            color:color,
+            fontSize: 20,
+            padding: 5
+        },
+        text2: {
+            fontWeight: 'bold',
+        }
+    });
     const [character, setCharacter] = useState<CharacterInterface>();
 
     const getCharacter = async () => {
@@ -46,51 +98,6 @@ const Character: ScreenFC<'Character'> = ({ navigation, route }) => {
     )
 }
 
-const styles = StyleSheet.create({
-    box: {
-        alignItems: 'center',
-        justifyContent: 'space-evenly',
-        textAlign:'center',
-        width: '100%'
-    },
-    button: {
-        alignItems: 'center',
-        backgroundColor: 'red',
-        borderRadius: 15,
-        justifyContent: 'center',
-        height: 20,
-        width: '100%',
-    },
-    id: {
-        alignItems: 'center',
-        borderRadius: 100,
-        backgroundColor: '#4c3838',
-        justifyContent: 'center',
-        height: 30,
-        position: 'absolute',
-        top: -10,
-        width: 30
-    },
-    image: {
-        borderRadius: 10,
-        height: 200,
-        marginTop: '5%',
-        width: '90%'
-    },
-    infos: {
-        alignItems: 'center',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginTop: '10%',
-        width: '80%',
-    },
-    text: {
-        fontSize: 20,
-        padding: 5
-    },
-    text2: {
-        fontWeight: 'bold',
-    }
-});
 
-export default Character
+
+export default Character;

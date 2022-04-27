@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useContext, useEffect, useState } from 'react';
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { Favorite, RemoveFavorite } from '../../models/favorites.interface';
@@ -7,6 +7,7 @@ import { selectLogin } from '../../store/login/login.selector';
 import { Props } from './Card.interface';
 import { addFavorite, removeFavorite } from "../../store/favorites/favorites.actions";
 import { MaterialIcons } from '@expo/vector-icons';
+import { ThemeContext } from '../../../App';
 
 
 
@@ -14,6 +15,51 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 
 const Card: FC<Props> = ({ id, name, species, location, status, image, removeCharacter }) => {
+    const {backgroundColor,borderColor,color}=useContext(ThemeContext);
+    const styles = StyleSheet.create({
+        box: {
+            alignItems: 'center',
+            borderColor: borderColor,
+            borderRadius: 15,
+            borderWidth:2,
+            justifyContent: 'space-evenly',
+            flexDirection: 'row',
+            height: 150,
+            marginBottom: 10,
+            marginTop: 20,
+            minWidth: 300,
+            width: '100%'
+        },
+        button: {
+            alignItems: 'center',
+            backgroundColor: 'red',
+            borderRadius: 15,
+            justifyContent: 'center',
+            height: 30,
+            padding: 1,
+            width: '100%',
+        },
+        id: {
+            alignItems: 'center',
+            borderRadius: 100,
+            backgroundColor: '#4c3838',
+            justifyContent: 'center',
+            height: 40,
+            position: 'absolute',
+            right: '42%',
+            top: -10,
+            width: 40
+        },
+        image: {
+            borderRadius: 100,
+            height: 60,
+            width: 60
+        },
+        text: {
+            fontWeight: 'bold',
+            color:color
+        }
+    });
     const loggedUser = useSelector(selectLogin);
     const favorites = useSelector(selectFavorites);
     const dispatch = useDispatch();
@@ -33,7 +79,7 @@ const Card: FC<Props> = ({ id, name, species, location, status, image, removeCha
     return (
         <View style={styles.box} >
             <View style={styles.id}>
-                <Text style={{ fontWeight: 'bold', color: 'white', fontSize: 10 }}>{id}</Text>
+                <Text style={[styles.text,{ fontSize: 10,color:'#fff' }]}>{id}</Text>
             </View>
             <View>
                 <Image
@@ -47,13 +93,13 @@ const Card: FC<Props> = ({ id, name, species, location, status, image, removeCha
                 <Text style={styles.text}>Location:</Text>
             </View>
             <View>
-                <Text style={{ width: '95%' }}>{name?.length > 15 ? name.substring(0, 15) : name}</Text>
-                <Text>{species}</Text>
+                <Text style={[styles.text,{ width: '95%' }]}>{name?.length > 15 ? name.substring(0, 15) : name}</Text>
+                <Text style={[styles.text,{ width: '95%' }]}>{species}</Text>
                 <Text numberOfLines={1} ellipsizeMode={'tail'}
-                    style={{ width: '95%' }}>{location?.length > 15 ? location.substring(0, 15) : location}</Text>
+                    style={[styles.text,{ width: '95%' }]}>{location?.length > 15 ? location.substring(0, 15) : location}</Text>
             </View>
             <View style={{ position: 'absolute', bottom: 10, right: 100 }}>
-                <Text style={{ fontWeight: 'bold', color: status === 'Alive' ? 'green' : 'red' }}>{status}</Text>
+                <Text style={[styles.text,{color: status === 'Alive' ? 'green' : 'red' }]}>{status}</Text>
             </View>
             {loggedUser.isLogged &&
                 <>
@@ -84,48 +130,6 @@ const Card: FC<Props> = ({ id, name, species, location, status, image, removeCha
     )
 
 }
-const styles = StyleSheet.create({
-    box: {
-        alignItems: 'center',
-        borderColor: '#17aede',
-        borderRadius: 15,
-        borderWidth:2,
-        justifyContent: 'space-evenly',
-        flexDirection: 'row',
-        height: 150,
-        marginBottom: 10,
-        marginTop: 20,
-        minWidth: 300,
-        width: '100%'
-    },
-    button: {
-        alignItems: 'center',
-        backgroundColor: 'red',
-        borderRadius: 15,
-        justifyContent: 'center',
-        height: 30,
-        padding: 1,
-        width: '100%',
-    },
-    id: {
-        alignItems: 'center',
-        borderRadius: 100,
-        backgroundColor: '#4c3838',
-        justifyContent: 'center',
-        height: 40,
-        position: 'absolute',
-        right: '42%',
-        top: -10,
-        width: 40
-    },
-    image: {
-        borderRadius: 100,
-        height: 60,
-        width: 60
-    },
-    text: {
-        fontWeight: 'bold',
-    }
-});
+
 
 export default Card;

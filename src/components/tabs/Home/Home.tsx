@@ -1,10 +1,22 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { FlatList, Pressable, SafeAreaView,StyleSheet,View } from 'react-native'
 import { Character, ResponseCharacters } from '../../../models/characters.interface';
 import ScreenFC from '../../../models/ScreenFC'
+import { ThemeContext } from '../../../../App';
 import Card from '../../Card/Card';
 
 const Home: ScreenFC<'Home'> = ({ navigation, route }) => {
+  const {backgroundColor}=useContext(ThemeContext);
+  const styles = StyleSheet.create({
+    container: {
+      alignItems: 'center',
+      backgroundColor: backgroundColor,
+      justifyContent: 'center',
+      height: '100%',
+      padding: 10,
+      width: '100%'
+    },
+  });
     const [characters, setCharacters] = useState<Character[]>([]);
   
     const getCharacters = async () => {
@@ -39,16 +51,7 @@ const Home: ScreenFC<'Home'> = ({ navigation, route }) => {
         </SafeAreaView>
       )
     }
-    const styles = StyleSheet.create({
-      container: {
-        alignItems: 'center',
-        backgroundColor: '#fff',
-        justifyContent: 'center',
-        height: '100%',
-        padding: 10,
-        width: '100%'
-      },
-    });
+   
 
 
 export default Home

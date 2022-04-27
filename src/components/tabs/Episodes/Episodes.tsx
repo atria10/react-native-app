@@ -1,10 +1,23 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { FlatList,StyleSheet, SafeAreaView, View } from 'react-native'
 import { Episode as EpisodeInterface, ResponseEpisodes } from '../../../models/episodes.interface';
 import ScreenFC from '../../../models/ScreenFC'
+import { ThemeContext } from '../../../../App';
 import Episode from '../../Episode/Episode';
 
 const Episodes: ScreenFC<'Episodes'> = ({ navigation }) => {
+  const {backgroundColor}=useContext(ThemeContext);
+
+  const styles = StyleSheet.create({
+    container: {
+      alignItems: 'center',
+      backgroundColor: backgroundColor,
+      justifyContent: 'center',
+      height: '100%',
+      padding: 10,
+      width: '100%'
+    },
+  });
     const [episodes, setEpisodes] = useState<EpisodeInterface[]>([]);
     const getEpisodes = async () => {
         await fetch('https://rickandmortyapi.com/api/episode')
@@ -36,14 +49,5 @@ const Episodes: ScreenFC<'Episodes'> = ({ navigation }) => {
       )
 }
 
-const styles = StyleSheet.create({
-    container: {
-      alignItems: 'center',
-      backgroundColor: '#fff',
-      justifyContent: 'center',
-      height: '100%',
-      padding: 10,
-      width: '100%'
-    },
-  });
+
 export default Episodes
