@@ -87,13 +87,14 @@ const Card: FC<Props> = ({ id, name, species, location, status, image, removeCha
 const styles = StyleSheet.create({
     box: {
         alignItems: 'center',
-        backgroundColor: '#fff',
+        borderColor: '#17aede',
         borderRadius: 15,
+        borderWidth:2,
         justifyContent: 'space-evenly',
         flexDirection: 'row',
         height: 150,
         marginBottom: 10,
-        marginTop: 10,
+        marginTop: 20,
         minWidth: 300,
         width: '100%'
     },

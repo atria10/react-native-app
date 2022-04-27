@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import ScreenFC from '../../models/ScreenFC'
 import { selectFavorites } from '../../store/favorites/favorites.selector';
 import Card from '../Card/Card';
+import Favorite from './Favorite/Favorite';
 
 const Favorites: ScreenFC<'Favorites'> = ({ route }) => {
     //SVILUPPA QUESTA PAGINATION
@@ -12,27 +13,31 @@ const Favorites: ScreenFC<'Favorites'> = ({ route }) => {
     //HAI FINITO
     const favorites=useSelector(selectFavorites).filter(item=>item.type===route.params?.id);
     return (
-        <Text>{JSON.stringify(favorites)}</Text>
-        // <SafeAreaView style={[styles.container, { padding: 10 }]}>
-        //   <FlatList
-        //     data={favorites}
-        //     renderItem={({ item }) =>
-        //       <View>
-        //         <Pressable onPress={() => navigation.navigate('Character', { id: String(item.id), name: item.name })}>
-        //           <Card name={item.name} image={item.image} species={item.species}
-        //             location={item.location?.name} status={item.status} id={item.id} removeCharacter={removeCharacter} />
-        //         </Pressable>
-        //       </View>
-        //     }
-        //     keyExtractor={item => String(item.id)}
-        //   />
-        // </SafeAreaView>
+
+        <SafeAreaView style={[styles.container, { padding: 10 }]}>
+          {favorites.length>0?
+          <FlatList
+            data={favorites}
+            renderItem={({ item }) =>
+              <View>
+                <Pressable>
+                  <Favorite favorite={item.favorite} type={route.params?.id}/>
+                </Pressable>
+              </View>
+            }
+            keyExtractor={item => String(item.favorite.id)}
+          />:
+          <View>
+            <Text style={{color:'black', fontSize: 20, fontWeight: 'bold'}}>No favorite yet</Text>
+            </View>
+        }
+        </SafeAreaView>
       )
     }
     const styles = StyleSheet.create({
       container: {
         alignItems: 'center',
-        backgroundColor: '#17aede',
+        backgroundColor: 'white',
         justifyContent: 'center',
         height: '100%',
         padding: 10,

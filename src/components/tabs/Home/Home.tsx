@@ -42,7 +42,7 @@ const Home: ScreenFC<'Home'> = ({ navigation, route }) => {
     const styles = StyleSheet.create({
       container: {
         alignItems: 'center',
-        backgroundColor: '#17aede',
+        backgroundColor: '#fff',
         justifyContent: 'center',
         height: '100%',
         padding: 10,

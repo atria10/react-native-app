@@ -80,7 +80,9 @@ const styles = StyleSheet.create({
     box: {
         alignItems: 'center',
         backgroundColor: '#fff',
+        borderColor: '#17aede',
         borderRadius: 15,
+        borderWidth:2,
         justifyContent: 'space-evenly',
         flexDirection: 'row',
         height: 150,
@@ -119,4 +121,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default Episode
+export default Episode;
