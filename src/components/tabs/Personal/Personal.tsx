@@ -49,12 +49,12 @@ const styles = StyleSheet.create({
           <View style={styles.buttonView}>
             <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Login')}>
               <Text style={{
-                color: color, fontSize: 20, fontWeight: 'bold', padding: 5, textAlign: 'center',
+                color: '#fff', fontSize: 20, fontWeight: 'bold', padding: 5, textAlign: 'center',
               }}>Go To Login</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Signup')}>
               <Text style={{
-                color: color, fontSize: 20, fontWeight: 'bold', padding: 5, textAlign: 'center',
+                color: '#fff', fontSize: 20, fontWeight: 'bold', padding: 5, textAlign: 'center',
               }}>Go to Signup</Text>
             </TouchableOpacity>
           </View>

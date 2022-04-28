@@ -16,7 +16,11 @@ const themes = {
     color: '#fff'
   }
 }
-
+{/* <Switch style={{ marginRight: 10 ,position: 'absolute',top:30 }}
+          trackColor={{ false: '#17aede', true: '#f47a00' }}
+          onValueChange={() => (setCurrentTheme(currentTheme === 'dark' ? 'light' : 'dark'), setIsDark(currentTheme === 'dark'))}
+          value={isDark}
+        /> */}
 
 export const ThemeContext = createContext(themes.light);
 
@@ -25,12 +29,6 @@ export default function App() {
   return (
     <Provider store={store}>
       <ThemeContext.Provider value={themes[currentTheme]}>
-        {/* <Switch style={{ marginRight: 10 ,position: 'absolute',top:30 }}
-          trackColor={{ false: '#17aede', true: '#f47a00' }}
-          onValueChange={() => (setCurrentTheme(currentTheme === 'dark' ? 'light' : 'dark'), setIsDark(currentTheme === 'dark'))}
-          value={isDark}
-        /> */}
-
         <NavigationProvider setTheme={(isLight: boolean) =>{
             setCurrentTheme(isLight?'light':'dark')}
         }/>
