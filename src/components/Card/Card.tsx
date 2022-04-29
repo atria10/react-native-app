@@ -1,4 +1,4 @@
-import React, { FC, useContext, useEffect, useState } from 'react';
+import React, { FC, useContext, useState } from 'react';
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { Favorite, RemoveFavorite } from '../../models/favorites.interface';
@@ -7,21 +7,19 @@ import { selectLogin } from '../../store/login/login.selector';
 import { Props } from './Card.interface';
 import { addFavorite, removeFavorite } from "../../store/favorites/favorites.actions";
 import { MaterialIcons } from '@expo/vector-icons';
-import { ThemeContext } from '../../../App';
-
-
+import { ThemeContext } from '../../navigation';
 
 
 
 
 const Card: FC<Props> = ({ id, name, species, location, status, image, removeCharacter }) => {
-    const {backgroundColor,borderColor,color}=useContext(ThemeContext);
+    const { borderColor, color } = useContext(ThemeContext);
     const styles = StyleSheet.create({
         box: {
             alignItems: 'center',
             borderColor: borderColor,
             borderRadius: 15,
-            borderWidth:2,
+            borderWidth: 2,
             justifyContent: 'space-evenly',
             flexDirection: 'row',
             height: 150,
@@ -57,21 +55,24 @@ const Card: FC<Props> = ({ id, name, species, location, status, image, removeCha
         },
         text: {
             fontWeight: 'bold',
-            color:color
+            color: color
         }
     });
     const loggedUser = useSelector(selectLogin);
     const favorites = useSelector(selectFavorites);
     const dispatch = useDispatch();
     const [isFavorite, setIsFavorite] = useState<boolean>(
-    favorites.some(favorite => favorite.favorite.id === id && favorite.username === loggedUser.username && favorite.type==='character'))
+        favorites.some(favorite => favorite.favorite.id === id && favorite.username === loggedUser.username && favorite.type === 'character'))
     const newFavorite = () => {
-        const favorite: Favorite = { username: loggedUser.username, favorite: { id, name, species, location, status, image }, type: 'character' };
+        const favorite: Favorite = {
+            username: loggedUser.username,
+            favorite: { id, name, species, location, status, image }, type: 'character'
+        };
         dispatch(addFavorite(favorite));
         setIsFavorite(true);
     }
     const unfavorite = () => {
-        const unfavorite: RemoveFavorite = { username: loggedUser.username, favoriteId:id, type: 'character' };
+        const unfavorite: RemoveFavorite = { username: loggedUser.username, favoriteId: id, type: 'character' };
         dispatch(removeFavorite(unfavorite));
         setIsFavorite(false);
     }
@@ -79,7 +80,7 @@ const Card: FC<Props> = ({ id, name, species, location, status, image, removeCha
     return (
         <View style={styles.box} >
             <View style={styles.id}>
-                <Text style={[styles.text,{ fontSize: 10,color:'#fff' }]}>{id}</Text>
+                <Text style={[styles.text, { fontSize: 10, color: '#fff' }]}>{id}</Text>
             </View>
             <View>
                 <Image
@@ -93,19 +94,19 @@ const Card: FC<Props> = ({ id, name, species, location, status, image, removeCha
                 <Text style={styles.text}>Location:</Text>
             </View>
             <View>
-                <Text style={[styles.text,{ width: '95%' }]}>{name?.length > 15 ? name.substring(0, 15) : name}</Text>
-                <Text style={[styles.text,{ width: '95%' }]}>{species}</Text>
+                <Text style={[styles.text, { width: '95%' }]}>{name?.length > 15 ? name.substring(0, 15) : name}</Text>
+                <Text style={[styles.text, { width: '95%' }]}>{species}</Text>
                 <Text numberOfLines={1} ellipsizeMode={'tail'}
-                    style={[styles.text,{ width: '95%' }]}>{location?.length > 15 ? location.substring(0, 15) : location}</Text>
+                    style={[styles.text, { width: '95%' }]}>{location?.length > 15 ? location.substring(0, 15) : location}</Text>
             </View>
             <View style={{ position: 'absolute', bottom: 10, right: 100 }}>
-                <Text style={[styles.text,{color: status === 'Alive' ? 'green' : 'red' }]}>{status}</Text>
+                <Text style={[styles.text, { color: status === 'Alive' ? 'green' : 'red' }]}>{status}</Text>
             </View>
             {loggedUser.isLogged &&
                 <>
                     <View style={{ position: 'absolute', bottom: 10, right: 10 }}>
                         <TouchableOpacity style={styles.button}
-                            onPress={() => (removeCharacter(id),unfavorite())}>
+                            onPress={() => (removeCharacter(id), unfavorite())}>
                             <Text style={{ fontWeight: 'bold', color: '#fff', textAlign: 'center', paddingHorizontal: 5 }}>Delete</Text>
                         </TouchableOpacity>
                     </View>

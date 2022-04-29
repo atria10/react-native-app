@@ -6,15 +6,15 @@ import { selectUsers } from "../../../store/users/users.selector";
 import { LoginInterface } from "./Login.interface";
 import { login } from "../../../store/login/login.actions";
 import ScreenFC from "../../../models/ScreenFC";
-import { ThemeContext } from "../../../../App";
+import { ThemeContext } from '../../../navigation';
 
-const Login: ScreenFC<'Login'> = ({ navigation, route }) => {
-    const {backgroundColor,borderColor,color}=useContext(ThemeContext);
+const Login: ScreenFC<'Login'> = ({ navigation }) => {
+    const { backgroundColor, borderColor, color } = useContext(ThemeContext);
     const styles = StyleSheet.create({
         button: {
             backgroundColor: borderColor,
             borderRadius: 20,
-            marginTop:10,
+            marginTop: 10,
             width: '100%',
         },
         buttonView: {
@@ -34,7 +34,7 @@ const Login: ScreenFC<'Login'> = ({ navigation, route }) => {
             borderColor: borderColor,
             borderRadius: 15,
             borderWidth: 2,
-            color:color,
+            color: color,
             marginTop: 10,
             padding: 10,
             textAlign: 'center',
@@ -57,7 +57,7 @@ const Login: ScreenFC<'Login'> = ({ navigation, route }) => {
     const [error, setError] = useState<boolean>(false);
     const users = useSelector(selectUsers);
     const dispatch = useDispatch();
-    const { control, handleSubmit, formState: { errors },reset } = useForm({
+    const { control, handleSubmit, formState: { errors }, reset } = useForm({
         defaultValues: {
             username: '',
             password: '',
@@ -65,9 +65,9 @@ const Login: ScreenFC<'Login'> = ({ navigation, route }) => {
     });
     const onSubmit = (user: LoginInterface) => {
         users.some((user1) => user1.username === user.username && user1.password === user.password) ?
-            (dispatch(login({username:user.username,isLogged:true})),
-                navigation.navigate('Personal', { id: user.username }),reset({} as LoginInterface)) :
-            (setError(true), setTimeout(() =>setError(false),1500));
+            (dispatch(login({ username: user.username, isLogged: true })),
+                navigation.navigate('Personal', { id: user.username }), reset({} as LoginInterface)) :
+            (setError(true), setTimeout(() => setError(false), 1500));
     }
 
     return (
@@ -75,17 +75,19 @@ const Login: ScreenFC<'Login'> = ({ navigation, route }) => {
             behavior={Platform.OS === "ios" ? "padding" : "height"}
             style={[styles.container, { flex: 1 }]}>
             <View style={styles.inputs}>
-                <Controller control={control} rules={{ required: true }} render={({ field: { onChange, onBlur, value } }) => (
-                    <TextInput style={styles.input} placeholder="Name"
-                        onBlur={onBlur} onChangeText={onChange} value={value} />
-                )}
+                <Controller control={control} rules={{ required: true }}
+                    render={({ field: { onChange, onBlur, value } }) => (
+                        <TextInput style={styles.input} placeholder="Name"
+                            onBlur={onBlur} onChangeText={onChange} value={value} />
+                    )}
                     name="username"
                 />
-                <Controller control={control} rules={{ required: true }} render={({ field: { onChange, onBlur, value } }) => (
-                    <TextInput style={styles.input}
-                        secureTextEntry onBlur={onBlur}
-                        onChangeText={onChange} value={value} placeholder="Password" />
-                )}
+                <Controller control={control} rules={{ required: true }}
+                    render={({ field: { onChange, onBlur, value } }) => (
+                        <TextInput style={styles.input}
+                            secureTextEntry onBlur={onBlur}
+                            onChangeText={onChange} value={value} placeholder="Password" />
+                    )}
                     name="password"
                 />
                 {(errors.username || errors.password) &&
@@ -96,12 +98,12 @@ const Login: ScreenFC<'Login'> = ({ navigation, route }) => {
             <View style={styles.buttonView}>
                 <TouchableOpacity style={styles.button} onPress={handleSubmit(onSubmit)}>
                     <Text style={{
-                        color:'#fff', fontSize: 20, fontWeight: 'bold', padding: 5, textAlign: 'center',
+                        color: '#fff', fontSize: 20, fontWeight: 'bold', padding: 5, textAlign: 'center',
                     }}>Login</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.button} onPress={()=>navigation.navigate('Signup')}>
+                <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Signup')}>
                     <Text style={{
-                        color:'#fff', fontSize: 20, fontWeight: 'bold', padding: 5, textAlign: 'center',
+                        color: '#fff', fontSize: 20, fontWeight: 'bold', padding: 5, textAlign: 'center',
                     }}>Signup</Text>
                 </TouchableOpacity>
             </View>

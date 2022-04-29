@@ -5,8 +5,8 @@ import { login,logout } from "./login.actions";
 const initialState :LoginReducerInterface={} as LoginReducerInterface;
 export const loginReducer = createReducer(initialState, (builder) =>
   builder
-    .addCase(login, (state, action) =>
-      action.payload.isLogged? state={...action.payload}: {} as LoginReducerInterface
+    .addCase(login, (state, {payload}) =>
+      payload.isLogged? state={...payload}: {} as LoginReducerInterface
     )
     .addCase(logout,(state)=>state={username:"",isLogged:false})
 );

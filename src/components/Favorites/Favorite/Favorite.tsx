@@ -5,12 +5,12 @@ import { RemoveFavorite } from '../../../models/favorites.interface';
 import { selectLogin } from '../../../store/login/login.selector';
 import { removeFavorite } from "../../../store/favorites/favorites.actions";
 import { MaterialIcons } from '@expo/vector-icons';
-import {  FavoriteInterface } from './Favorite.interface';
-import { ThemeContext } from "../../../../App";
+import { FavoriteInterface } from './Favorite.interface';
+import { ThemeContext } from '../../../navigation';
 
 
 const FavoriteElement: FC<FavoriteInterface> = ({ favorite, type }) => {
-    const {borderColor,color}=useContext(ThemeContext);
+    const { borderColor, color } = useContext(ThemeContext);
     const styles = StyleSheet.create({
         box: {
             alignItems: 'center',
@@ -21,8 +21,8 @@ const FavoriteElement: FC<FavoriteInterface> = ({ favorite, type }) => {
             flexDirection: 'row',
             marginBottom: 10,
             marginTop: 20,
-            minWidth:300,
-            padding:10,
+            minWidth: 300,
+            padding: 10,
             width: '80%'
         },
     });
@@ -41,7 +41,7 @@ const FavoriteElement: FC<FavoriteInterface> = ({ favorite, type }) => {
                 <Text style={[{ fontWeight: 'bold', color: color, fontSize: 15 }]}>{favorite.id}</Text>
             </View>
             <View >
-                <Text style={{ fontWeight: 'bold', color:color, fontSize: 15 }}>{favorite.name}</Text>
+                <Text style={{ fontWeight: 'bold', color: color, fontSize: 15 }}>{favorite.name}</Text>
             </View>
             <View>
                 <TouchableOpacity

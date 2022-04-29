@@ -1,4 +1,4 @@
-import React, { createContext, FC, useContext, useState } from 'react'
+import React, { createContext, FC } from 'react'
 import { RootStackParams } from '../models/rootStackParams.type';
 import { NavigationContainer } from '@react-navigation/native';
 import CharacterStack from './CharacterStack';
@@ -8,21 +8,33 @@ import Episode from '../components/Episode/Episode';
 import Signup from '../components/Auth/Signup/Signup';
 import Login from '../components/Auth/Login/Login';
 import Favorites from '../components/Favorites/Favorites';
-import { ThemeContext } from '../../App';
+import { useSelector } from 'react-redux';
+import { selectThemes } from '../store/themes/themes.selector';
 
-interface Props{
-    setTheme:(isLight:boolean)=>void;
+export const themes = {
+    light: {
+        backgroundColor: '#fff',
+        borderColor: '#17aede',
+        color: '#000'
+    },
+    dark: {
+        backgroundColor: '#000',
+        borderColor: '#f47a00',
+        color: '#fff'
+    }
 }
-const RootStack = createStackNavigator<RootStackParams>();
-const NavigationProvider: FC<Props> = (theme) => {
-    const { backgroundColor, borderColor, color } = useContext(ThemeContext);
+export const ThemeContext = createContext(themes.light);
 
+const RootStack = createStackNavigator<RootStackParams>();
+const NavigationProvider: FC = () => {
+    const theme = useSelector(selectThemes);
     return (
+        <ThemeContext.Provider value={themes[theme ? 'dark' : 'light']}>
             <NavigationContainer>
                 <RootStack.Navigator screenOptions={{
                     headerTitleAlign: 'center',
                     headerStyle: {
-                        backgroundColor: borderColor,
+                        backgroundColor: theme ? themes.dark.borderColor : themes.light.borderColor,
                     },
                     headerTintColor: '#fff',
                     headerTitleStyle: {
@@ -39,12 +51,13 @@ const NavigationProvider: FC<Props> = (theme) => {
                     />
                     <RootStack.Screen name="Episode" component={Episode} />
                     <RootStack.Screen name="Signup" component={Signup} />
-                    <RootStack.Screen name="Login" component={Login} 
+                    <RootStack.Screen name="Login" component={Login}
                     />
                     <RootStack.Screen name="Favorites" component={Favorites}
                         options={({ route }) => ({ title: 'Favorite ' + route.params?.id + 's' })} />
                 </RootStack.Navigator>
             </NavigationContainer>
+        </ThemeContext.Provider>
     )
 }
 

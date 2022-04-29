@@ -3,18 +3,18 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { StyleSheet, Text, View, Image } from 'react-native';
 import ScreenFC from '../../models/ScreenFC';
 import { Character as CharacterInterface } from '../../models/characters.interface'
-import { ThemeContext } from "../../../App";
+import { ThemeContext } from '../../navigation';
 
-const Character: ScreenFC<'Character'> = ({ navigation, route }) => {
-    const {backgroundColor,borderColor,color}=useContext(ThemeContext);
+const Character: ScreenFC<'Character'> = ({ route }) => {
+    const { backgroundColor, color } = useContext(ThemeContext);
 
     const styles = StyleSheet.create({
         box: {
             alignItems: 'center',
             backgroundColor,
-            flex:1,
+            flex: 1,
             justifyContent: 'center',
-            textAlign:'center',
+            textAlign: 'center',
             width: '100%'
         },
         button: {
@@ -49,7 +49,7 @@ const Character: ScreenFC<'Character'> = ({ navigation, route }) => {
             width: '80%',
         },
         text: {
-            color:color,
+            color: color,
             fontSize: 20,
             padding: 5
         },
@@ -74,7 +74,7 @@ const Character: ScreenFC<'Character'> = ({ navigation, route }) => {
                 source={{ uri: character?.image, }}
             />
             <View style={styles.infos}>
-                <View style={{height:'100%'}}>
+                <View style={{ height: '100%' }}>
                     <Text style={styles.text}>Name: </Text>
                     <Text style={styles.text}>Status: </Text>
                     <Text style={styles.text}>Species: </Text>
@@ -83,15 +83,15 @@ const Character: ScreenFC<'Character'> = ({ navigation, route }) => {
                     <Text style={styles.text}>Location: </Text>
                 </View>
                 <View>
-                    <Text style={[styles.text, styles.text2,{width: '90%' }]}> {character?.name}</Text>
+                    <Text style={[styles.text, styles.text2, { width: '90%' }]}> {character?.name}</Text>
                     <Text style={[styles.text, styles.text2,
-                    { color: character?.status === "Alive" ? 'green' : character?.status === "Dead" ? 'red' : 'black'}]}>
+                    { color: character?.status === "Alive" ? 'green' : character?.status === "Dead" ? 'red' : 'black' }]}>
                         {character?.status}</Text>
                     <Text style={[styles.text, styles.text2]}> {character?.species}</Text>
                     <Text style={[styles.text, styles.text2]}> {character?.gender}</Text>
-                    <Text style={[styles.text, styles.text2,{width: '90%' }]}
+                    <Text style={[styles.text, styles.text2, { width: '90%' }]}
                     > {character?.origin.name}</Text>
-                    <Text style={[styles.text, styles.text2,{width: '90%' }]}> {character?.location.name}</Text>
+                    <Text style={[styles.text, styles.text2, { width: '90%' }]}> {character?.location.name}</Text>
                 </View>
             </View>
         </SafeAreaView>

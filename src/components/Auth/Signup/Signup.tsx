@@ -1,4 +1,4 @@
-import React, { FC, useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { StyleSheet, Text, View, TextInput, KeyboardAvoidingView, Platform, TouchableOpacity } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { User } from "./Signup.interface";
@@ -6,11 +6,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { signup } from "../../../store/users/users.actions";
 import { selectUsers } from "../../../store/users/users.selector";
 import ScreenFC from "../../../models/ScreenFC";
-import { ThemeContext } from "../../../../App";
+import { ThemeContext } from '../../../navigation';
 
-//SVILUPPA LA LOGIN PAGE
 const Signup: ScreenFC<'Signup'> = ({ navigation }) => {
-    const {backgroundColor,borderColor,color}=useContext(ThemeContext);
+    const { backgroundColor, borderColor, color } = useContext(ThemeContext);
     const styles = StyleSheet.create({
         button: {
             backgroundColor: borderColor,
@@ -58,7 +57,7 @@ const Signup: ScreenFC<'Signup'> = ({ navigation }) => {
     const [existing, setExisting] = useState<boolean>(false);
     const users = useSelector(selectUsers);
     const dispatch = useDispatch();
-    const { control, handleSubmit, formState: { errors },reset } = useForm({
+    const { control, handleSubmit, formState: { errors }, reset } = useForm({
         defaultValues: {
             username: '',
             country: '',
@@ -69,7 +68,7 @@ const Signup: ScreenFC<'Signup'> = ({ navigation }) => {
         let id: number = (users.length === 0) ? 1 : Math.max(...users.map(user => user.id)) + 1;
         user = { ...user, id };
         users.some((user1) => user1.username === user.username) ? setExisting(true) :
-            (dispatch(signup(user!)), navigation.navigate('Login'),reset({} as User));
+            (dispatch(signup(user!)), navigation.navigate('Login'), reset({} as User));
     }
 
     return (
@@ -77,23 +76,26 @@ const Signup: ScreenFC<'Signup'> = ({ navigation }) => {
             behavior={Platform.OS === "ios" ? "padding" : "height"}
             style={[styles.container, { flex: 1 }]}>
             <View style={styles.inputs}>
-                <Controller control={control} rules={{ required: true }} render={({ field: { onChange, onBlur, value } }) => (
-                    <TextInput style={styles.input} placeholder="Username"
-                        onBlur={onBlur} onChangeText={onChange} value={value} />
-                )}
+                <Controller control={control} rules={{ required: true }}
+                    render={({ field: { onChange, onBlur, value } }) => (
+                        <TextInput style={styles.input} placeholder="Username"
+                            onBlur={onBlur} onChangeText={onChange} value={value} />
+                    )}
                     name="username"
                 />
-                <Controller control={control} rules={{ required: true, maxLength: 2, minLength: 2 }} render={({ field: { onChange, onBlur, value } }) => (
-                    <TextInput style={styles.input}
-                        onBlur={onBlur} onChangeText={onChange} value={value} placeholder="country code" />
-                )}
+                <Controller control={control} rules={{ required: true, maxLength: 2, minLength: 2 }}
+                    render={({ field: { onChange, onBlur, value } }) => (
+                        <TextInput style={styles.input}
+                            onBlur={onBlur} onChangeText={onChange} value={value} placeholder="country code" />
+                    )}
                     name="country"
                 />
-                <Controller control={control} rules={{ required: true }} render={({ field: { onChange, onBlur, value } }) => (
-                    <TextInput style={styles.input}
-                        secureTextEntry onBlur={onBlur}
-                        onChangeText={onChange} value={value} placeholder="Password" />
-                )}
+                <Controller control={control} rules={{ required: true }}
+                    render={({ field: { onChange, onBlur, value } }) => (
+                        <TextInput style={styles.input}
+                            secureTextEntry onBlur={onBlur}
+                            onChangeText={onChange} value={value} placeholder="Password" />
+                    )}
                     name="password"
                 />
                 {(errors.username || errors.password) &&
@@ -106,12 +108,12 @@ const Signup: ScreenFC<'Signup'> = ({ navigation }) => {
             <View style={styles.buttonView}>
                 <TouchableOpacity style={styles.button} onPress={handleSubmit(onSubmit)}>
                     <Text style={{
-                        color:'#fff', fontSize: 20, fontWeight: 'bold', padding: 5, textAlign: 'center',
+                        color: '#fff', fontSize: 20, fontWeight: 'bold', padding: 5, textAlign: 'center',
                     }}>Signup</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Login')}>
                     <Text style={{
-                        color:'#fff', fontSize: 20, fontWeight: 'bold', padding: 5, textAlign: 'center',
+                        color: '#fff', fontSize: 20, fontWeight: 'bold', padding: 5, textAlign: 'center',
                     }}>Login</Text>
                 </TouchableOpacity>
             </View>

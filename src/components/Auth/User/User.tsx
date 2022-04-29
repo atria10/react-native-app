@@ -7,12 +7,11 @@ import { User as UserInterface } from '../../Auth/Signup/Signup.interface';
 import { AntDesign } from '@expo/vector-icons';
 import { selectLogin } from '../../../store/login/login.selector';
 import { selectFavorites } from '../../../store/favorites/favorites.selector';
-import ScreenFC from '../../../models/ScreenFC';
 import { Props } from './User.interface';
-import { ThemeContext } from "../../../../App";
+import { ThemeContext } from '../../../navigation';
 
-const User:FC<Props>=({navigation})=> {
-    const {backgroundColor,borderColor,color}=useContext(ThemeContext);
+const User: FC<Props> = ({ navigation }) => {
+    const { backgroundColor, borderColor, color } = useContext(ThemeContext);
     const styles = StyleSheet.create({
         logout: {
             alignItems: 'center',
@@ -64,7 +63,7 @@ const User:FC<Props>=({navigation})=> {
             width: '100%',
         },
         text: {
-            color:color,
+            color: color,
             fontSize: 20,
             fontWeight: 'bold',
             textAlign: 'center'
@@ -82,7 +81,7 @@ const User:FC<Props>=({navigation})=> {
         setUser(loggedUser!);
     }, [user, users])
     useEffect(() => {
-        console.log('favorites',favorites)
+        console.log('favorites', favorites)
     }, [favorites])
     return (
         <View style={styles.container}>
@@ -102,15 +101,17 @@ const User:FC<Props>=({navigation})=> {
                 </View>
             </View>
             <View style={styles.favoritesArea}>
-                <TouchableOpacity style={styles.favorite} onPress={()=>navigation('character')} >
+                <TouchableOpacity style={styles.favorite} onPress={() => navigation('character')} >
                     <Text style={styles.text}>Favorite Characters:</Text>
                     <Text style={styles.text}>
-                        ({favorites.filter(favorite => favorite.type === 'character' && favorite.username === loggedUsername).length})</Text>
+                        ({favorites.filter(favorite => favorite.type === 'character' && favorite.username === loggedUsername).length})
+                    </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.favorite} onPress={()=>navigation('episode')}>
+                <TouchableOpacity style={styles.favorite} onPress={() => navigation('episode')}>
                     <Text style={styles.text}>Favorite Episodes:</Text>
                     <Text style={styles.text}>
-                        ({favorites.filter(favorite => favorite.type === 'episode' && favorite.username === loggedUsername).length})</Text>
+                        ({favorites.filter(favorite => favorite.type === 'episode' && favorite.username === loggedUsername).length})
+                    </Text>
                 </TouchableOpacity>
             </View>
 
